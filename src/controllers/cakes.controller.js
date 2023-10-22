@@ -5,6 +5,7 @@ export async function postCake(req, res) {
 
     try {
         const cakeExists = await getCakeByName(name);
+        
 
         if (cakeExists.rowCount === 1) return res.status(409).send("Esse bolo já existe :(");
 
