@@ -17,11 +17,11 @@ export async function getClientsOrders(req, res) {
     const { id } = req.params;
 
     try {
-        const clientExists = getClientById(id);
+        const clientExists = await getClientById(id);
         if (clientExists.rowCount === 0) return res.status(404).send("Cliente não encontrado :(");
 
-        const orderExists = getOrdersByClientId(id);
-        console.log(orderExists);
+        const orderExists = await getOrdersByClientId(id);
+        
         if (orderExists.rows.length === 0) return res.status(404).send("Nenhum pedido encontrado :(");
 
         const orders = orderExists.rows.map((order) => ({
