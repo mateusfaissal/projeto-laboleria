@@ -1,4 +1,4 @@
-import { getClientId, getCakes, newOrder, getOrdersFromDate } from "../repositories/orders.repository.js";
+import { getClientId, getCakes, newOrder, getOrdersFromDate, getOrderId } from "../repositories/orders.repository.js";
 
 export async function postOrder(req, res) {
     const { clientId, cakeId, quantity, totalPrice } = req.body
@@ -48,6 +48,43 @@ export async function getAllOrders(req, res) {
           });
       
           res.status(200).send(orders);
+
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
+
+export async function getAllOrdersById(req, res) {
+    const { id } = req.params
+
+    try {
+        const orderExist = await getOrderId(id);
+        if (orderExist.rows.length === 0) return res.status(404).send("Pedido não encontrado");
+
+        const order = orderExist.rows[0];
+
+        const arrayOrder = {
+            client: {
+              id: order.clientId,
+              name: order.clientName,
+              address: order.clientAddress,
+              phone: order.clientPhone,
+            },
+            cake: {
+              id: order.cakeId,
+              name: order.cakeName,
+              price: parseFloat(order.cakePrice),
+              description: order.cakeDescription,
+              image: order.cakeImage,
+            },
+            orderId: order.orderId,
+            createdAt: order.createdAt,
+            quantity: order.quantity,
+            totalPrice: parseFloat(order.totalPrice),
+          };
+      
+          res.status(200).send(arrayOrder);
+
 
     } catch (err) {
         res.status(500).send(err.message);

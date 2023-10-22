@@ -49,4 +49,30 @@ export async function getOrdersFromDate(date) {
   return result.rows;
 }
 
+export async function getOrderId(orderId) {
+    return db.query(
+        `
+          SELECT
+              o.id as "orderId",
+              c.id as "clientId",
+              c.name as "clientName",
+              c.address as "clientAddress",
+              c.phone as "clientPhone",
+              ca.id as "cakeId",
+              ca.name as "cakeName",
+              ca.price::numeric as "cakePrice",
+              ca.description as "cakeDescription",
+              ca.image as "cakeImage",
+              TO_CHAR(o."createdAt", 'YYYY-MM-DD HH24:MI:SS') AS "createdAt",
+              o.quantity,
+              o."totalPrice"::numeric
+          FROM
+              orders o
+              INNER JOIN clients c ON o."clientId" = c.id
+              INNER JOIN cakes ca ON o."cakeId" = ca.id
+          WHERE
+              o.id = $1`,
+        [orderId]
+      );
+}
 
