@@ -1,7 +1,7 @@
 import { db } from "../database/db.connection.js"
 
 export async function getCakeByName(name) {
-    return db.query (`SELECT * FROM cakes WHERE name = $1;`, [name]);
+    return db.query(`SELECT * FROM cakes WHERE name = $1;`, [name]);
 }
 
 export async function newCake(name, image, price, description) {

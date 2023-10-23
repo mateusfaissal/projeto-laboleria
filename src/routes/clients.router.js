@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { validateSchema } from "../middlewares/validateSchema.js"
 import { clientsSchema } from "../schemas/clients.schema.js"
-import { postClient, getClientsOrders} from "../controllers/clients.controller.js";
+import { postClient, getClientsOrders } from "../controllers/clients.controller.js";
 
 const clientsRouter = Router();
 

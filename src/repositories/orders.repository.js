@@ -14,7 +14,7 @@ export async function newOrder(clientId, cakeId, quantity, totalPrice) {
         cakeId,
         quantity,
         totalPrice,
-      ]);
+    ]);
 }
 
 export async function getOrdersFromDate(date) {
@@ -38,15 +38,15 @@ export async function getOrdersFromDate(date) {
             INNER JOIN clients c ON o."clientId" = c.id
             INNER JOIN cakes ca ON o."cakeId" = ca.id`;
 
-  const queryParams = [];
+    const queryParams = [];
 
-  if (date) {
-    query += ' WHERE DATE(o."createdAt") = $1';
-    queryParams.push(date);
-  }
+    if (date) {
+        query += ' WHERE DATE(o."createdAt") = $1';
+        queryParams.push(date);
+    }
 
-  const result = await db.query(query, queryParams);
-  return result.rows;
+    const result = await db.query(query, queryParams);
+    return result.rows;
 }
 
 export async function getOrderId(orderId) {
@@ -73,6 +73,6 @@ export async function getOrderId(orderId) {
           WHERE
               o.id = $1`,
         [orderId]
-      );
+    );
 }
 

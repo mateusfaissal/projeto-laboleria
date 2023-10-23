@@ -1,16 +1,16 @@
 import { db } from "../database/db.connection.js"
 
 export async function newClient(name, address, phone) {
-    return db.query(`INSERT INTO clients (name, address, phone) VALUES ($1, $2, $3);`, [name, address, phone]);
+  return db.query(`INSERT INTO clients (name, address, phone) VALUES ($1, $2, $3);`, [name, address, phone]);
 }
 
 export async function getClientById(clientId) {
-    return db.query(`SELECT * FROM clients WHERE id=$1`, [clientId])
+  return db.query(`SELECT * FROM clients WHERE id=$1`, [clientId])
 }
 
 export async function getOrdersByClientId(clientId) {
-    return db.query(
-      `
+  return db.query(
+    `
   SELECT
     c.id as "clientId",
     o.id as "orderId",
@@ -24,6 +24,6 @@ export async function getOrdersByClientId(clientId) {
     INNER JOIN cakes ca ON o."cakeId" = ca.id
   WHERE
     c.id = $1`,
-      [clientId]
-    );
-  }
+    [clientId]
+  );
+}

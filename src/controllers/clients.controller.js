@@ -21,10 +21,10 @@ export async function getClientsOrders(req, res) {
         if (clientExists.rowCount === 0) return res.status(404).send("Cliente não encontrado :(");
 
         const orderExists = await getOrdersByClientId(id);
-        
+
         if (orderExists.rows.length === 0) return res.status(404).send("Nenhum pedido encontrado :(");
 
-        const orders = orderExists.rows.map((order) => ({
+        const formattedOrders = orderExists.rows.map((order) => ({
             orderId: order.orderId,
             quantity: order.quantity,
             createdAt: order.createdAt,
@@ -32,7 +32,7 @@ export async function getClientsOrders(req, res) {
             cakeName: order.cakeName,
         }));
 
-        res.status(200).send(orders);
+        res.status(200).send(formattedOrders);
 
     } catch (err) {
         res.status(500).send(err.message);
